@@ -10,5 +10,6 @@ import java.util.List;
 @Repository
 public interface OrdersRepository extends JpaRepository<Orders, Integer> {
     List<Orders> findAllByOrderStatus(Short orderStatus);
+
     List<Orders> findAllByStoreId(Integer storeId);
 }
