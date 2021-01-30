@@ -4,7 +4,7 @@ Anything related to the changes made to this project will be documented here.
 
 ## Unreleased
 
-## 0.1.1 - 2021-1-16
+## 0.1.1 - 2021-1-29
 
 ### Added
 - Added DTO and Mapper for Categories and Customers.
