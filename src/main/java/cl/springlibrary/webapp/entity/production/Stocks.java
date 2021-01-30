@@ -1,72 +1,44 @@
 package cl.springlibrary.webapp.entity.production;
 
+import cl.springlibrary.webapp.compositekeys.StocksId;
+import cl.springlibrary.webapp.entity.sales.Stores;
+import lombok.*;
+
 import javax.persistence.*;
 
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@NoArgsConstructor
 @Entity
+@ToString(exclude ={"products","stores"})
+@IdClass(StocksId.class)
 @Table(name = "stocks")
 public class Stocks {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Getter
+    @Setter
+    @EqualsAndHashCode.Include
     @Column(name = "store_id")
     private Integer storeId;
+    @Id
+    @Getter
+    @Setter
+    @EqualsAndHashCode.Include
     @Column(name = "product_id")
     private Integer productId;
+    @Getter
+    @Setter
     @Column(name = "quantity")
     private Integer quantity;
+    @Getter
+    @Setter
+    @OneToOne(mappedBy = "stocks")
+    private Products products;
+    @Getter
+    @Setter
+    @OneToOne(mappedBy = "stocks")
+    private Stores stores;
 
-    public Stocks() {
-    }
-
-    public Stocks(Integer productId, Integer quantity) {
-        this.productId = productId;
+    public Stocks(Integer quantity) {
         this.quantity = quantity;
-    }
-
-    public Integer getStoreId() {
-        return storeId;
-    }
-
-    public void setStoreId(Integer storeId) {
-        this.storeId = storeId;
-    }
-
-    public Integer getProductId() {
-        return productId;
-    }
-
-    public void setProductId(Integer productId) {
-        this.productId = productId;
-    }
-
-    public Integer getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(Integer quantity) {
-        this.quantity = quantity;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Stocks stocks = (Stocks) o;
-
-        return storeId != null ? storeId.equals(stocks.storeId) : stocks.storeId == null;
-    }
-
-    @Override
-    public int hashCode() {
-        return storeId != null ? storeId.hashCode() : 0;
-    }
-
-    @Override
-    public String toString() {
-        return "Stocks{" +
-                "storeId=" + storeId +
-                ", productId=" + productId +
-                ", quantity=" + quantity +
-                '}';
     }
 }

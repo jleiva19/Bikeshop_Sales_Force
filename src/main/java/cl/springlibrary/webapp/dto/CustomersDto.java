@@ -1,37 +1,38 @@
 package cl.springlibrary.webapp.dto;
 
-import cl.springlibrary.webapp.entity.sales.Orders;
 import lombok.*;
 
-import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class OrdersDto {
+public class CustomersDto {
     @EqualsAndHashCode.Include
     @Getter
     @Setter
-    private Integer orderId;
+    private Integer customerId;
     @Getter
     @Setter
-    private String  staffFirstName;
+    private String firstName;
     @Getter
     @Setter
-    private String  staffLastName;
+    private String lastName;
     @Getter
     @Setter
-    private String clientFirstName;
+    private String phone;
     @Getter
     @Setter
-    private String clientLastName;
+    private String email;
     @Getter
     @Setter
-    private LocalDate orderDate;
+    private String street;
     @Getter
     @Setter
-    private LocalDate requiredDate;
+    private String city;
     @Getter
     @Setter
-    private String orderStatus;
+    private String state;
+    @Getter
+    @Setter
+    private String zipCode;
 }

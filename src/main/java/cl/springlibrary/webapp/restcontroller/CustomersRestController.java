@@ -1,5 +1,7 @@
 package cl.springlibrary.webapp.restcontroller;
 
+import cl.springlibrary.webapp.dto.CustomersDto;
+import cl.springlibrary.webapp.dto.OrdersDto;
 import cl.springlibrary.webapp.entity.sales.Customers;
 import cl.springlibrary.webapp.service.CustomersService;
 import org.springframework.web.bind.annotation.*;
@@ -16,7 +18,7 @@ public class CustomersRestController {
     }
 
     @GetMapping("/customers")
-    public List<Customers> getCustomers() {
+    public List<CustomersDto> getCustomers() {
         return customersService.getCustomers();
     }
 

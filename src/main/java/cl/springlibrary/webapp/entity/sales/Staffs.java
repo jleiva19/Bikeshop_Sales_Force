@@ -1,43 +1,68 @@
 package cl.springlibrary.webapp.entity.sales;
 
+import lombok.*;
+
 import javax.persistence.*;
 import java.util.List;
 
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@ToString(exclude = {"store","manager","subordinates"})
+@NoArgsConstructor
 @Entity
 @Table(name = "staffs")
 public class Staffs {
     @Id
+    @EqualsAndHashCode.Include
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Getter
+    @Setter
     @Column(name = "staff_id")
     private Integer staffId;
+    @Getter
+    @Setter
     @Column(name = "first_name")
     private String firstName;
+    @Getter
+    @Setter
     @Column(name = "last_name")
     private String lastName;
+    @Getter
+    @Setter
     @Column(name = "email")
     private String email;
+    @Getter
+    @Setter
     @Column(name = "phone")
     private String phone;
+    @Getter
+    @Setter
     @Column(name = "active")
     private Short active;
+    @Getter
+    @Setter
     @Column(name = "store_id")
     private Integer storeId;
+    @Getter
+    @Setter
     @Column(name = "manager_id")
     private Integer managerId;
 
-    @OneToMany (mappedBy = "staffs")
-    List<Orders> orders;
+    @ManyToOne
+    @Getter
+    @Setter
+    @JoinColumn(name = "manager_id",insertable = false,updatable = false)
+    private Staffs manager;
 
-    public List<Orders> getOrders() {
-        return orders;
-    }
+    @OneToMany(mappedBy = "manager", fetch = FetchType.LAZY)
+    @Getter
+    @Setter
+    private List<Staffs> subordinates;
 
-    public void setOrders(List<Orders> orders) {
-        this.orders = orders;
-    }
-
-    public Staffs() {
-    }
+    @ManyToOne
+    @Getter
+    @Setter
+    @JoinColumn(name = "store_id",insertable = false,updatable = false)
+    private Stores store;
 
     public Staffs(String firstName, String lastName, String email, String phone, Short active, Integer storeId, Integer managerId) {
         this.firstName = firstName;
@@ -47,98 +72,5 @@ public class Staffs {
         this.active = active;
         this.storeId = storeId;
         this.managerId = managerId;
-    }
-
-    public Integer getStaffId() {
-        return staffId;
-    }
-
-    public void setStaffId(Integer staffId) {
-        this.staffId = staffId;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public Short getActive() {
-        return active;
-    }
-
-    public void setActive(Short active) {
-        this.active = active;
-    }
-
-    public Integer getStoreId() {
-        return storeId;
-    }
-
-    public void setStoreId(Integer storeId) {
-        this.storeId = storeId;
-    }
-
-    public Integer getManagerId() {
-        return managerId;
-    }
-
-    public void setManagerId(Integer managerId) {
-        this.managerId = managerId;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Staffs staffs = (Staffs) o;
-
-        return staffId != null ? staffId.equals(staffs.staffId) : staffs.staffId == null;
-    }
-
-    @Override
-    public int hashCode() {
-        return staffId != null ? staffId.hashCode() : 0;
-    }
-
-    @Override
-    public String toString() {
-        return "Staffs{" +
-                "staffId=" + staffId +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", email='" + email + '\'' +
-                ", phone='" + phone + '\'' +
-                ", active='" + active + '\'' +
-                ", storeId=" + storeId +
-                ", managerId=" + managerId +
-                '}';
     }
 }

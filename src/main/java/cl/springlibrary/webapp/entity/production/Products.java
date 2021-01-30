@@ -1,28 +1,66 @@
 package cl.springlibrary.webapp.entity.production;
 
+import cl.springlibrary.webapp.entity.sales.OrderItems;
+import lombok.*;
+
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.List;
 
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@NoArgsConstructor
+@ToString(exclude = {"stocks", "categories","brands"})
 @Entity
 @Table(name = "products")
 public class Products {
     @Id
+    @EqualsAndHashCode.Include
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Getter
+    @Setter
     @Column(name = "product_id")
     private Integer productId;
+    @Getter
+    @Setter
     @Column(name = "product_name")
     private String productName;
+    @Getter
+    @Setter
     @Column(name = "brand_id")
     private Integer brandId;
+    @Getter
+    @Setter
     @Column(name = "category_id")
     private Integer categoryId;
+    @Getter
+    @Setter
     @Column(name = "model_year")
     private Short modelYear;
+    @Getter
+    @Setter
     @Column(name = "list_price")
     private BigDecimal listPrice;
 
-    public Products() {
-    }
+    @OneToOne
+    @Getter
+    @Setter
+    @JoinColumns({
+            @JoinColumn(name = "store_id", insertable = false, updatable = false),
+            @JoinColumn(name = "product_id", insertable = false, updatable = false)
+    })
+    private Stocks stocks;
+
+    @ManyToOne
+    @Getter
+    @Setter
+    @JoinColumn(name = "category_id",insertable = false,updatable = false)
+    private Categories categories;
+
+    @ManyToOne
+    @Getter
+    @Setter
+    @JoinColumn(name = "brand_id",insertable = false,updatable = false)
+    private Brands brands;
 
     public Products(String productName, Integer brandId, Integer categoryId, Short modelYear, BigDecimal listPrice) {
         this.productName = productName;
@@ -30,80 +68,5 @@ public class Products {
         this.categoryId = categoryId;
         this.modelYear = modelYear;
         this.listPrice = listPrice;
-    }
-
-    public Integer getProductId() {
-        return productId;
-    }
-
-    public void setProductId(Integer productId) {
-        this.productId = productId;
-    }
-
-    public String getProductName() {
-        return productName;
-    }
-
-    public void setProductName(String productName) {
-        this.productName = productName;
-    }
-
-    public Integer getBrandId() {
-        return brandId;
-    }
-
-    public void setBrandId(Integer brandId) {
-        this.brandId = brandId;
-    }
-
-    public Integer getCategoryId() {
-        return categoryId;
-    }
-
-    public void setCategoryId(Integer categoryId) {
-        this.categoryId = categoryId;
-    }
-
-    public Short getModelYear() {
-        return modelYear;
-    }
-
-    public void setModelYear(Short modelYear) {
-        this.modelYear = modelYear;
-    }
-
-    public BigDecimal getListPrice() {
-        return listPrice;
-    }
-
-    public void setListPrice(BigDecimal listPrice) {
-        this.listPrice = listPrice;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Products products = (Products) o;
-
-        return productId != null ? productId.equals(products.productId) : products.productId == null;
-    }
-
-    @Override
-    public int hashCode() {
-        return productId != null ? productId.hashCode() : 0;
-    }
-
-    @Override
-    public String toString() {
-        return "Products{" +
-                "productId=" + productId +
-                ", productName='" + productName + '\'' +
-                ", brandId=" + brandId +
-                ", categoryId=" + categoryId +
-                ", modelYear=" + modelYear +
-                ", listPrice=" + listPrice +
-                '}';
     }
 }

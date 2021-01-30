@@ -12,11 +12,13 @@ public interface OrdersMapper {
 
     @Mappings({
             @Mapping(target = "orderId", source = "orderId"),
-            @Mapping(target = "staffName", expression = "java(order.getStaffs().getFirstName() + \" \" + order.getStaffs().getLastName())"),
-            @Mapping(target = "clientName", expression = "java(order.getCustomer().getFirstName() + \" \" + order.getCustomer().getLastName())"),
+            @Mapping(target = "staffFirstName", expression = "java(order.getStaffs().getFirstName())"),
+            @Mapping(target = "staffLastName", expression = "java(order.getStaffs().getLastName())"),
+            @Mapping(target = "clientFirstName", expression = "java(order.getCustomer().getFirstName())"),
+            @Mapping(target = "clientLastName", expression = "java(order.getCustomer().getLastName())"),
             @Mapping(target = "orderDate", source = "orderDate"),
             @Mapping(target = "requiredDate", source = "requiredDate"),
-            @Mapping(target = "orderStatus", source = "orderStatus"),
+            @Mapping(target = "orderStatus", source = "orderStatus")
     })
     OrdersDto entityToDto(Orders order);
 }

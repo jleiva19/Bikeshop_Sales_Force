@@ -1,109 +1,64 @@
 package cl.springlibrary.webapp.entity.sales;
 
+import cl.springlibrary.webapp.compositekeys.OrderItemsId;
+import cl.springlibrary.webapp.entity.production.Products;
+import lombok.*;
+
 import javax.persistence.*;
 import java.math.BigDecimal;
 
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@NoArgsConstructor
 @Entity
 @Table(name = "order_items")
+@ToString(exclude = {"order","products"})
+@IdClass(OrderItemsId.class)
 public class OrderItems {
+
+    @EqualsAndHashCode.Include
+    @Getter
+    @Setter
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "order_id")
     private Integer orderId;
+    @EqualsAndHashCode.Include
+    @Getter
+    @Setter
+    @Id
     @Column(name = "item_id")
     private Integer itemId;
+    @Getter
+    @Setter
     @Column(name = "product_id")
     private Integer productId;
+    @Getter
+    @Setter
     @Column(name = "quantity")
     private Integer quantity;
+    @Getter
+    @Setter
     @Column(name = "list_price")
     private BigDecimal listPrice;
+    @Getter
+    @Setter
     @Column(name = "discount")
     private BigDecimal discount;
 
-    public OrderItems() {
-    }
+    @Getter
+    @Setter
+    @OneToOne(mappedBy = "orderItems")
+    private Orders order;
 
-    public OrderItems(Integer itemId, Integer productId, Integer quantity, BigDecimal listPrice, BigDecimal discount) {
-        this.itemId = itemId;
+    @ManyToOne
+    @Getter
+    @Setter
+    @JoinColumn(name = "product_id",insertable = false,updatable = false)
+    private Products products;
+
+    public OrderItems(Integer productId, Integer quantity, BigDecimal listPrice, BigDecimal discount) {
         this.productId = productId;
         this.quantity = quantity;
         this.listPrice = listPrice;
         this.discount = discount;
-    }
-
-    public Integer getOrderId() {
-        return orderId;
-    }
-
-    public void setOrderId(Integer orderId) {
-        this.orderId = orderId;
-    }
-
-    public Integer getItemId() {
-        return itemId;
-    }
-
-    public void setItemId(Integer itemId) {
-        this.itemId = itemId;
-    }
-
-    public Integer getProductId() {
-        return productId;
-    }
-
-    public void setProductId(Integer productId) {
-        this.productId = productId;
-    }
-
-    public Integer getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(Integer quantity) {
-        this.quantity = quantity;
-    }
-
-    public BigDecimal getListPrice() {
-        return listPrice;
-    }
-
-    public void setListPrice(BigDecimal listPrice) {
-        this.listPrice = listPrice;
-    }
-
-    public BigDecimal getDiscount() {
-        return discount;
-    }
-
-    public void setDiscount(BigDecimal discount) {
-        this.discount = discount;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        OrderItems that = (OrderItems) o;
-
-        return orderId != null ? orderId.equals(that.orderId) : that.orderId == null;
-    }
-
-    @Override
-    public int hashCode() {
-        return orderId != null ? orderId.hashCode() : 0;
-    }
-
-    @Override
-    public String toString() {
-        return "OrderItems{" +
-                "orderId=" + orderId +
-                ", itemId=" + itemId +
-                ", productId=" + productId +
-                ", quantity=" + quantity +
-                ", listPrice=" + listPrice +
-                ", discount=" + discount +
-                '}';
     }
 }

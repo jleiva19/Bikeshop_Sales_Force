@@ -1,60 +1,30 @@
 package cl.springlibrary.webapp.entity.production;
 
+import lombok.*;
+
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
+@NoArgsConstructor
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@ToString
 @Table(name = "brands")
 public class Brands {
+
     @Id
+    @EqualsAndHashCode.Include
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Getter
+    @Setter
     @Column(name = "brand_id")
     private Integer brandId;
+    @Getter
+    @Setter
     @Column(name = "brand_name")
     private String brandName;
 
-    public Brands() {
-    }
-
     public Brands(String brandName) {
         this.brandName = brandName;
-    }
-
-    public Integer getBrandId() {
-        return brandId;
-    }
-
-    public void setBrandId(Integer brandId) {
-        this.brandId = brandId;
-    }
-
-    public String getBrandName() {
-        return brandName;
-    }
-
-    public void setBrandName(String brandName) {
-        this.brandName = brandName;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Brands brands = (Brands) o;
-
-        return brandName != null ? brandName.equals(brands.brandName) : brands.brandName == null;
-    }
-
-    @Override
-    public int hashCode() {
-        return brandName != null ? brandName.hashCode() : 0;
-    }
-
-    @Override
-    public String toString() {
-        return "Brands{" +
-                "brandId=" + brandId +
-                ", brandName='" + brandName + '\'' +
-                '}';
     }
 }
